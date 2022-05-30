@@ -1,4 +1,7 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { lazy, Suspense, useCallback, useMemo, useState } from "react";
+import './App.scss'
+
+const DemoComponent=lazy(() => import('./demoComponent'))
 
 function App() {
   const [myState, setMyState] = useState(1);
@@ -16,10 +19,13 @@ function App() {
   }, [memoizedNumber]);
 
   return (
-    <React.Fragment>
+    <div className="App">
       <div>myState: {myState}</div>
       <button onClick={handleClick}>Click</button>
-    </React.Fragment>
+      <Suspense fallback={<p>Loading.....</p>} >
+        <DemoComponent />
+      </Suspense>
+    </div>
   );
 }
 
