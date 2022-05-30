@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useCallback, useMemo, useState } from "react";
 
 function App() {
+  const [myState, setMyState] = useState(1);
+
+  const calculate = useCallback((number) => {
+    return number * 10;
+  }, []);
+
+  const memoizedNumber = useMemo(() => {
+    return calculate(myState);
+  }, [myState, calculate]);
+
+  const handleClick = useCallback(() => {
+    setMyState((prevState) => memoizedNumber);
+  }, [memoizedNumber]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <div>myState: {myState}</div>
+      <button onClick={handleClick}>Click</button>
+    </React.Fragment>
   );
 }
 
